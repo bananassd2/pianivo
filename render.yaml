@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: pianivo
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn render_boot:application --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 300
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: OPENBLAS_NUM_THREADS
+        value: "1"
+      - key: OMP_NUM_THREADS
+        value: "1"
